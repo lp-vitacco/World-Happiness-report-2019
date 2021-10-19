@@ -1,0 +1,249 @@
+---
+title: "World Happiness Report"
+author: "Lauren Vitacco"
+date: "2/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# load the tidyverse
+library(tidyverse)
+
+happiness.data <- read_csv("./data/2019.csv")
+happiness.data <- rename(happiness.data, OverallRank = `Overall rank`, Country.Region = `Country or region`, GDPperCapita = `GDP per capita`, SocialSupport = `Social support`, LifeExpect = `Healthy life expectancy`, Freedom = `Freedom to make life choices`, Corruption = `Perceptions of corruption`)
+```
+
+## Section 1
+
+This is a template for the first section of your exploratory data analysis
+
+```{r}
+
+happiness.data %>% 
+  filter(OverallRank < 6) %>% 
+  select(OverallRank, Country.Region, Score, GDPperCapita) %>% 
+  ggplot(mapping = aes(x = GDPperCapita, y = Score, color = Country.Region)) + 
+  geom_point(size = 3) + 
+  labs(title = "Top 5 Happiest Countries", x = "GDP Per Capita", y = "Happiness Score", color = "Country or Region") +
+  scale_color_manual(values = c("Finland" = "goldenrod1", "Denmark" = "royalblue4", "Iceland" = "plum3", "Netherlands" = "lightsteelblue3", "Norway" = "darkolivegreen4")) +
+  theme(
+    panel.background = element_rect(fill = "#fce5f9"),
+    plot.background = element_rect(fill = "#fce5f9", color = NA),
+    panel.grid.major = element_line(color = "azure3"),
+    panel.grid.minor = element_line(color = "azure3"),
+    panel.border = element_rect(linetype = "solid", fill = NA, color = "azure3"),
+    legend.background = element_rect(fill = "#fce5f9"),
+    legend.text = element_text(family = "Gill Sans", color = "#35292e", size = 12),
+    legend.title = element_text(family = "Gill Sans", color = "#35292e", size = 15),
+    plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+    axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 10, r = 0, b = 0, l = 0)),
+    axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t =0, r = 10, b = 0, l = 0))
+  )
+    
+    
+    
+    
+    
+	  
+	  
+    
+
+	 ggsave("Top-Countries.png")
+
+
+
+```
+
+## Section 2
+
+This is a template for the second section of your exploratory data analysis
+
+```{r gdp}
+
+countries <- c("Finland", "Iceland", "Myammar", "Qatar", "Singapore", "Uzbekistan")
+# GDP 
+happiness.data %>% 
+  filter(Country.Region== "Finland" | Country.Region == "Qatar" | Country.Region == "Iceland" | Country.Region == "Singapore" | Country.Region == "Uzbekistan" | Country.Region == "Myanmar") %>% 
+  ggplot(mapping = aes(x = Country.Region, y = GDPperCapita, fill = Country.Region)) + 
+    geom_bar(stat = "identity") +
+    labs(title = "Countries' GDP Per Capita 2019", x = "Country or Region", y = "GDP/capita") +
+    ylim(0.0, 2.0) +
+    scale_fill_manual(values = c("Finland" = "goldenrod1", "Iceland" = "plum3", "Myanmar" = "darkorange3", "Qatar" = "peachpuff3", "Singapore" = "maroon", "Uzbekistan" = "violetred2")) +
+    theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 15, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e"),
+      axis.line = element_line(size = 0.5, color ="#35292e"),
+      legend.position = "none"
+      
+  )
+ggsave("gdp1.png")
+
+```
+
+``` {r social}
+# social support - darkseasgreen 
+happiness.data %>% 
+  filter(Country.Region== "Finland" | Country.Region == "Qatar" | Country.Region == "Iceland" | Country.Region == "Singapore" | Country.Region == "Uzbekistan" | Country.Region == "Myanmar") %>% 
+  ggplot(mapping = aes(x = Country.Region, y = SocialSupport,  fill = Country.Region)) + 
+    geom_bar(stat = "identity") +
+    labs(title = "Countries' Social Support 2019", x = "Country or Region", y = "Social Support") +
+    ylim(0.0, 2.0) +
+    scale_fill_manual(values = c("Finland" = "goldenrod1", "Iceland" = "plum3", "Myanmar" = "darkorange3", "Qatar" = "peachpuff3", "Singapore" = "maroon", "Uzbekistan" = "violetred2")) +
+    theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 15, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e"),
+      axis.line = element_line(size = 0.5, color ="#35292e"),
+      legend.position = "none"
+      
+  )
+ggsave("social-support1.png")
+
+```
+
+``` {r life expec}
+# Life Expectancy - sea blue   
+  happiness.data %>% 
+  filter(Country.Region== "Finland" | Country.Region == "Qatar" | Country.Region == "Iceland" | Country.Region == "Singapore" | Country.Region == "Uzbekistan" | Country.Region == "Myanmar") %>% 
+  ggplot(mapping = aes(x = Country.Region, y = LifeExpect, fill = Country.Region)) + 
+    geom_bar(stat = "identity") +
+    labs(title = "Countries' Life Epectancies 2019", x = "Country or Region", y = "Life Expectancy") +
+    ylim(0.0, 2.0) +
+    scale_fill_manual(values = c("Finland" = "goldenrod1", "Iceland" = "plum3", "Myanmar" = "darkorange3", "Qatar" = "peachpuff3", "Singapore" = "maroon", "Uzbekistan" = "violetred2")) +
+    theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 15, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e"),
+      axis.line = element_line(size = 0.5, color ="#35292e"),
+      legend.position = "none"
+      
+  )
+ggsave("life-expect1.png")
+```
+
+``` {r freedom}
+# Freedom - Purple 
+happiness.data %>% 
+  filter(Country.Region== "Finland" | Country.Region == "Qatar" | Country.Region == "Iceland" | Country.Region == "Singapore" | Country.Region == "Uzbekistan" | Country.Region == "Myanmar") %>% 
+  ggplot(mapping = aes(x = Country.Region, y = Freedom, fill = Country.Region)) + 
+    geom_bar( stat = "identity") +
+    labs(title = "Countries' Freedom to Make Life Choices 2019", x = "Country or Region", y = "Freedom to Make Life Choices") +
+    ylim(0.0, 2.0) +
+    scale_fill_manual(values = c("Finland" = "goldenrod1", "Iceland" = "plum3", "Myanmar" = "darkorange3", "Qatar" = "peachpuff3", "Singapore" = "maroon", "Uzbekistan" = "violetred2")) +
+    theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 15, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e"),
+      axis.line = element_line(size = 0.5, color ="#35292e"),
+      legend.position = "none"
+      
+  )
+ggsave("freedom1.png") 
+```
+
+``` {r generosity}
+# Generosity - Yellow 
+happiness.data %>% 
+  filter(Country.Region== "Finland" | Country.Region == "Qatar" | Country.Region == "Iceland" | Country.Region == "Singapore" | Country.Region == "Uzbekistan" | Country.Region == "Myanmar") %>% 
+  ggplot(mapping = aes(x = Country.Region, y = Generosity, fill = Country.Region)) + 
+    geom_bar( stat = "identity") +
+    labs(title = "Countries' Generosity 2019", x = "Country or Region", y = "Generosity") +  
+    ylim(0.0, 2.0) +
+    scale_fill_manual(values = c("Finland" = "goldenrod1", "Iceland" = "plum3", "Myanmar" = "darkorange3", "Qatar" = "peachpuff3", "Singapore" = "maroon", "Uzbekistan" = "violetred2")) +
+    theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 15, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e"),
+      axis.line = element_line(size = 0.5, color ="#35292e"),
+      legend.position = "none"
+      
+  )
+ggsave("generosity1.png")
+```
+
+``` {r corruption}
+# Corruption - salmon
+happiness.data %>% 
+  filter(Country.Region== "Finland" | Country.Region == "Qatar" | Country.Region == "Iceland" | Country.Region == "Singapore" | Country.Region == "Uzbekistan" | Country.Region == "Myanmar") %>% 
+  ggplot(mapping = aes(x = Country.Region, y = Corruption, fill = Country.Region)) + 
+  geom_bar(stat = "identity") +
+    labs(title = "Countries' Perceptions of Corruption 2019", x = "Country or Region", y = "Perception of Corruption") +
+    ylim(0.0, 2.0) +
+    scale_fill_manual(values = c("Finland" = "goldenrod1", "Iceland" = "plum3", "Myanmar" = "darkorange3", "Qatar" = "peachpuff3", "Singapore" = "maroon", "Uzbekistan" = "violetred2")) +
+    theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 15, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e"),
+      axis.line = element_line(size = 0.5, color ="#35292e"),
+      legend.position = "none"
+      
+  )
+ggsave("corruption1.png")
+  
+
+```
+
+## Section 3
+
+
+
+```{r}
+
+corruption.mean <- mean(happiness.data$Corruption, na.rm = TRUE)
+finland.c <- 0.393
+
+happiness.data %>% 
+  ggplot(mapping = aes(x = Corruption)) + 
+  geom_vline(xintercept = finland.c, linetype = "dashed", color = "goldenrod1", size = 1) +
+  geom_density(fill = "rosybrown3", alpha = 0.75, color = "thistle4") +
+  geom_text(aes(x = 0.37, label = "Finland", y = 4.2), family = "Gill Sans", color = "#35292e") + 
+  labs(title = "Frequency of Perception of Corruption", x = "Perception of Corruption", y = "Density") +
+  theme(
+      panel.background = element_rect(fill = "#fce5f9"),
+      plot.background = element_rect(fill = "#fce5f9"),
+      panel.grid.major = element_line(color = "azure3"),
+      panel.grid.minor = element_line(color = "azure3"),
+      panel.border = element_rect(linetype = "solid", fill = NA, color = "azure3"),
+      plot.title = element_text(family = "Gill Sans", color = "#35292e", size = 20, margin = margin(t = 0, r = 0, b = 20, l = 0)),
+      axis.title.x = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 15, r = 0, b = 0, l = 0)),
+      axis.title.y = element_text(family = "Gill Sans", color = "#35292e", margin = margin(t = 0, r = 14, b = 0, l = 0)),
+      axis.text = element_text(family = "Gill Sans", color = "#35292e")
+  )
+ggsave("Frequency1.png")
+
+  
+```
+
